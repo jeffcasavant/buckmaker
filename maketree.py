@@ -40,11 +40,11 @@ def parseLevel(currentLevel, url):
                     if element.contents:
                         currentLevel[element.contents[0]] = {}
                         if element.get('href'):
-                            print 'Will process %s' % element.contents[0]
+                            print 'Will process     %50s' % element.contents[0]
                             to_process.append((currentLevel[element.contents[0]], 'http://www.familyorigins.com/users/b/u/c/Gordon-S-Buck/FAMO1-0001/' + element.get('href')))
                 else:
                     if len(element.strip()):
-                        print 'Will not process %s' % element.strip()
+                        print 'Will not process %50s' % element.strip()
                         currentLevel[element.strip()] = None
 
 tree['Thomas BUCK I'] = {}
