@@ -9,6 +9,17 @@ from bs4 import BeautifulSoup as bs
 
 import json
 
+import argparse
+
+parser = argparse.ArgumentParser()
+
+parser.add_argument("--output",
+                    required=True,
+                    type=argparse.FileType("w"))
+
+args = parser.parse_args()
+
+args.output.write("// The Buck family tree\n")
 
 tree = {}
 to_process = []
@@ -32,7 +43,7 @@ def parseLevel(currentLevel, url):
                             print 'Will process %s' % element.contents[0]
                             to_process.append((currentLevel[element.contents[0]], 'http://www.familyorigins.com/users/b/u/c/Gordon-S-Buck/FAMO1-0001/' + element.get('href')))
                 else:
-                    if element:
+                    if len(element.strip()):
                         print 'Will not process %s' % element.strip()
                         currentLevel[element.strip()] = None
 
@@ -43,4 +54,4 @@ while to_process:
     parseLevel(*to_process[0])
     to_process = to_process[1:]
 
-json.dumps(tree)
+args.output.write(json.dumps(tree, sort_keys=True, indent=4, separators=(',', ': ')))
